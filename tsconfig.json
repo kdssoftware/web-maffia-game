@@ -1,5 +1,14 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@fauna":["lib/faunadb.ts"],
+      "@models":["models/index.ts"],
+      "@models/*":["models/*"],
+      "@utils/*":["utils/*"],
+      "@controller/*":["controller/*"],
+      "@components/*":["components/*"],
+    },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
