@@ -17,6 +17,11 @@ const config : Config.InitialOptions = {
   // The directory where Jest should store its cached dependency information
   // cacheDirectory: "C:\\Users\\u0144861\\AppData\\Local\\Temp\\jest",
 
+  // A list of paths to directories that Jest should use to search for files in
+  roots: [
+    "tests/jest"
+  ],
+
   // Automatically clear mock calls, instances and results before every test
   clearMocks: true,
 
@@ -120,10 +125,6 @@ const config : Config.InitialOptions = {
   // The root directory that Jest should scan for tests and modules within
   // rootDir: undefined,
 
-  // A list of paths to directories that Jest should use to search for files in
-  roots: [
-    "tests"
-  ],
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",

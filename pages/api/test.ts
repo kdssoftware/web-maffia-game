@@ -1,6 +1,5 @@
-
-
-import { Job, User } from '@models';
+import { User } from '@models/User';
+import { Job } from '@models/Job';
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 

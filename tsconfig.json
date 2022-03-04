@@ -3,7 +3,6 @@
     "baseUrl": ".",
     "paths": {
       "@fauna":["lib/faunadb.ts"],
-      "@models":["models/index.ts"],
       "@models/*":["models/*"],
       "@utils/*":["utils/*"],
       "@controller/*":["controller/*"],
