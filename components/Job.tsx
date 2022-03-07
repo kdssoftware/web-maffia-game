@@ -1,9 +1,12 @@
-import {  JobData } from "@models/Job"
+import {  JobData, Job } from "@models/Job"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleDollarToSlot, faDollarSign, faCrown, faBolt} from "@fortawesome/free-solid-svg-icons"
 import { useState } from "react"
 
 const JobComponent = ({jobData} : {jobData:JobData})   => {
+    const doJob = async (jobRefId :string) => {
+        const res = await fetch('/api/job/do?id=' + jobRefId)
+    }
     return (
         <div className="w-full px-1 py-3">
             <div className="bg-amber-900 pl-4 text-2xl pb-0.5 capitalize text-white border-b-2 border-default">
@@ -29,7 +32,9 @@ const JobComponent = ({jobData} : {jobData:JobData})   => {
                         <button className="bg-default px-3 py-2 flex flex-row justify-between 
                         hover:bg-gradient-to-br hover:from-default hover:to-slate-600
                         transition-all duration-500 ease-in-out transform hover:scale-105
-                        ">
+                        "
+                        onClick={()=>doJob(Job.getRefIdFromJobDataStatic(jobData))}
+                        >
                             <FontAwesomeIcon icon={faBolt} size="2x" className="text-slate-600 w-10" />
                             <div className="text-slate-200 font-bold h-full text-center text-2xl ">
                                 {jobData.data.energy}

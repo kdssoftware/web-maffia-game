@@ -7,35 +7,37 @@ import { useState, useEffect } from 'react'
 import { IUser, User } from '@models/User'
 import { useRouter } from 'next/router'
 import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
+import Bottom from '@components/Bottom'
 
 interface  Props  {
     stringyfiedUser: string
 }
 
 const UserPage: NextPage<Props> = (props)  => {
-    // let {stringyfiedUser} = props;
-    // const user : User = JSON.parse(stringyfiedUser);
-    // const userRefId = User.getRefIdStatic(user);
+    let {stringyfiedUser} = props;
+    const user : User = JSON.parse(stringyfiedUser);
+    const userRefId = User.getRefIdStatic(user);
     return (
-        <Top />
+        <>
+        </>
     )
 }
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-    // if (context && context.params && context.params.userRefId) {
-    //     const userRefId = context.params.userRefId as string;
-    //     const user = await getUserByRef(userRefId);
-    //     return {
-    //         props:{
-    //             stringyfiedUser:JSON.stringify(user)
-    //         }
-    //     }
-    // }else{
-    //     return {
-    //         notFound:true
-    //     }
-    // }
-// }
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    if (context && context.params && context.params.userRefId) {
+        const userRefId = context.params.userRefId as string;
+        const user = await getUserByRef(userRefId);
+        return {
+            props:{
+                stringyfiedUser:JSON.stringify(user)
+            }
+        }
+    }else{
+        return {
+            notFound:true
+        }
+    }
+}
 
 
 

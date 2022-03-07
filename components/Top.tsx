@@ -5,11 +5,6 @@ import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserTie, faCoins, faMoneyBill, faGun, faBolt, faHeart } from '@fortawesome/free-solid-svg-icons'
 
-/**
- * 
- * @param props 
- * @returns 
- */
 const Top = ({ userRefId, _user }: { userRefId?: string, _user?: User }) => {
     const { data: session, status } = useSession()
     // let userRefId = props?.userRefId;)
@@ -31,6 +26,22 @@ const Top = ({ userRefId, _user }: { userRefId?: string, _user?: User }) => {
         }
         doAsync();
     }, [userRefId, _user, session])
+
+    useEffect(()=>{
+        if(session && session.user){
+            console.log(session.user)
+        }
+        const doAsync = async () => {
+            if(session && session.user.updateTop==true){
+                console.log("updating...");
+                const res = await fetch('/api/user/getByRefId?id=' + session?.user.refId);
+                setUser(await res.json())
+                session.user.updateTop=false;
+            }
+        }
+        doAsync();
+
+    },[])
 
     return (
         <div className="flex flex-row justify-between bg-slate-900 ">

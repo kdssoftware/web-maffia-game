@@ -73,4 +73,9 @@ export class Job implements IJob {
         return String(Object.values(this.ref)[0].id)
     }
 
+    public static getRefIdFromJobDataStatic(jobData:JobData) : string {
+        //@ts-ignore
+        return Object.values(jobData.ref)[0].id
+    }
+
 }

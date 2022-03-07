@@ -27,6 +27,7 @@ export default NextAuth({
         const userModel = new User(session.user.name, session.user.email)
         await userModel.get()
         session.user.refId = userModel.getRefId();
+        session.user.updateTop = false;
       }
       return session
     },

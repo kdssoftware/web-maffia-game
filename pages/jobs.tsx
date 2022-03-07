@@ -10,6 +10,7 @@ import { getUserByEmail } from '@controller/User'
 import JobComponent from '@components/Job'
 import { Job, JobData } from '@models/Job'
 import { useState, useEffect } from 'react'
+import Bottom from '@components/Bottom'
 
 
 const Jobs: NextPage = ({
@@ -25,11 +26,10 @@ const Jobs: NextPage = ({
             }
         }
         doAsync()
-    }, [session])
+    }, [])
+
     return (
         <>
-        
-        <Top />
         <div className='flex flex-row justify-center'>
             <div className='flex flex-col justify-center w-4/5'>
             {
