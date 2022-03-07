@@ -55,3 +55,9 @@ export const getJobByRef = async (refId: string): Promise<JobData> => {
   );
   return jobData;
 };
+
+export const _delete = async (job: Job) => {
+  await client.query(
+    q.Delete(q.Ref(q.Collection("jobs"), job.getRefId()))
+  );
+}

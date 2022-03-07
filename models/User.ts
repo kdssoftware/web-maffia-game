@@ -1,5 +1,5 @@
 import generateCode from "@utils/generateCode";
-import { createNewUser, getUserByName, getUserByRef, update, userDoesJob } from "@controller/User";
+import { createNewUser, getUserByEmail, getUserByRef, update, userDoesJob } from "@controller/User";
 import {Ref} from "@fauna";
 
 export type UserData =  {
@@ -8,6 +8,7 @@ export type UserData =  {
 }
 
 export interface IUser {
+    email: string;
     level : number;
     dollars: number;
     energy: number;
@@ -32,6 +33,7 @@ export interface IUser {
 }
 
 class User implements IUser {
+    email: string;
     level!: number;
     dollars!: number;
     energy!: number;
@@ -54,13 +56,14 @@ class User implements IUser {
       }[];
     ref!:Ref
     
-    constructor(name:string){
+    constructor(name:string, email:string) {
         this.name = name;
+        this.email = email;
     }
 
     //if not exists create a new user, else return the existing user
     get = async () =>{
-        await getUserByName(this.name).then(async userData => {
+        await getUserByEmail(this.email).then(async userData => {
             if(userData){
                 this.ref = userData.ref;
                 this.level = userData.data.level;
@@ -124,6 +127,11 @@ class User implements IUser {
     public getRefId() {
         //@ts-ignore
         return Object.values(this.ref)[0].id
+    }
+
+    public static getRefIdStatic(user:User) {
+        //@ts-ignore
+        return Object.values(user.ref)[0].id
     }
     
 }

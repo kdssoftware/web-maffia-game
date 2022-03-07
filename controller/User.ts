@@ -7,6 +7,7 @@ export const createNewUser = async (user: User): Promise<User> => {
   const userRef: UserData = await client.query(
     q.Create(q.Collection("users"), {
       data: {
+        email: user.email,
         name: user.name,
         level: user.level,
         dollars: user.dollars,
@@ -33,7 +34,9 @@ export const getUserByRef = async (userRef: string): Promise<User> => {
     q.Get(q.Ref(q.Collection("users"), userRef))
   );
   const user : User = new User(
-    userData.data.name
+    userData.data.name,
+    userData.data.email
+  
   )
   await user.get();
 
@@ -45,20 +48,24 @@ export const getUserByName = async (name: string): Promise<UserData | null> => {
     const userData: UserData = await client.query(
       q.Get(q.Match(q.Index("users_by_name"), name))
     );
-    console.log(userData);
     return userData;
   } catch (e) {
-    console.log(e)
+    return null;
+  }
+};
+
+export const getUserByEmail = async (email: string): Promise<UserData | null> => {
+  try {
+    const userData: UserData = await client.query(
+      q.Get(q.Match(q.Index("users_by_email"), email))
+    );
+    return userData;
+  } catch (e) {
     return null;
   }
 };
 
 export const userDoesJob = async (user :User, jobRefId: string) => {  
-  /**
-   * 1. Get job data
-   * 2. check if enough demaning resources
-   * 3. update user data
-   */
   const jobData = await getJobByRef(jobRefId)
   const checkLevel = user.level >= jobData.data.minLevel && user.level <= jobData.data.maxLevel
   const checkEnergy = user.energy >= jobData.data.energy;
@@ -96,7 +103,6 @@ export const update = async (user: User) => {
     await client.query(
       q.Update(q.Ref(q.Collection("users"), user.getRefId()), {
         data: {
-          name: user.name,
           level: user.level,
           dollars: user.dollars,
           energy: user.energy,
@@ -108,8 +114,7 @@ export const update = async (user: User) => {
           experienceMax: user.experienceMax,
           ammo: user.ammo,
           ammoMax: user.ammoMax,
-          code: user.code,
-          lastUpdated: user.lastUpdated,
+          lastUpdated: new Date().toISOString(),
           jobs: user.jobs,
         },
       })
@@ -132,4 +137,10 @@ export const levelUp = async (user: User) => {
   user.experience = 0;
   user.experienceMax += 10;
   await update(user);
+}
+
+export const _delete = async (user: User) => {
+  await client.query(
+    q.Delete(q.Ref(q.Collection("users"), user.getRefId()))
+  );
 }
