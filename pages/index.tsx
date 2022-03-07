@@ -15,7 +15,7 @@ const Home: NextPage = ({
       {
         session && (
           <>
-            {/* <Top user={}/> */}
+            <Top />
           </>
         )
       }

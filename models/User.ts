@@ -1,5 +1,5 @@
 import generateCode from "@utils/generateCode";
-import { createNewUser, getUserByEmail, getUserByRef, update, userDoesJob } from "@controller/User";
+import { createNewUser, getUserByEmail, getUserByRef, update, userDoesJob, getAvailableJobsForUser} from "@controller/User";
 import {Ref} from "@fauna";
 
 export type UserData =  {
@@ -133,6 +133,15 @@ class User implements IUser {
         //@ts-ignore
         return Object.values(user.ref)[0].id
     }
+
+    public async getAvailableJobs() {
+        return await getAvailableJobsForUser(this.getRefId());
+    }
+
+    public  static async getAvailableJobsStatic (userRefId: string){
+        return await getAvailableJobsForUser(userRefId);
+    }
+
     
 }
 

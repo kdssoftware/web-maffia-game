@@ -20,6 +20,16 @@ export const createNewJob = async (job: Job): Promise<Job> => {
   return job;
 };
 
+export const getAllJobs = async () : Promise<JobData[]> => {
+  const jobs : {data: JobData[]} = await client.query(
+    q.Map(
+      q.Paginate(q.Match(q.Index("jobs_all"))),
+      q.Lambda("job", q.Get(q.Var("job")))
+    )
+  );
+  return jobs.data;
+}
+
 export const getJob = async (refId: string): Promise<Job> => {
   const jobData: JobData = await client.query(
     q.Get(q.Ref(q.Collection("jobs"), refId))

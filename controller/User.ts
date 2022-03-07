@@ -1,6 +1,7 @@
 import { client, q } from "@fauna";
 import { User, UserData } from "@models/User";
-import { getJobByRef } from "./Job";
+import { Job, JobData } from "@models/Job";
+import { getJobByRef, getAllJobs } from "./Job";
 import {generateNumberFromRange} from "@utils/generateNumberFromRange";
 
 export const createNewUser = async (user: User): Promise<User> => {
@@ -28,6 +29,16 @@ export const createNewUser = async (user: User): Promise<User> => {
   user.ref = userRef.ref;
   return user;
 };
+
+export const getAvailableJobsForUser = async (userRefId: string): Promise<JobData[]> => {
+  const user : User = await getUserByRef(userRefId)
+  const jobs: JobData[] = Array.from(await getAllJobs());
+  return jobs.filter(job => {
+    if(user.level >= job.data.minLevel && user.level <= job.data.maxLevel){
+      return true
+    }
+  })
+}
 
 export const getUserByRef = async (userRef: string): Promise<User> => {
   const userData: UserData = await client.query(
