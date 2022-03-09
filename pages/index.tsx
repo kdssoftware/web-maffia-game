@@ -12,9 +12,7 @@ const Home: NextPage = ({
   const { data: session } = useSession()
   return (
     <div>
-      <h1>Welcome to maffia game.</h1>
-      <hr />
-      <p>This game is currently in development. Feel free to help</p>
+      <SignButton />
     </div>
   )
 }

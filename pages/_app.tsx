@@ -2,24 +2,20 @@ import '../styles/globals.css'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { SessionProvider } from "next-auth/react"
-import Bottom from '@components/Bottom'
-import Top from '@components/Top'
 import { Provider } from 'react-redux'
 import store from '@lib/redux/store'
+import { useEffect } from 'react'
+import Layout from '@components/Layout'
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
-  return (
-    <SessionProvider session={session}>
-      <Provider store={store}>
-        <div className="h-screen bg-slate-800">
-          <Top />
-          <div className=' top-[172px] bottom-[73px] overflow-y-auto overscroll-y-contain flex-nowrap fixed w-screen'>
-          <Component {...pageProps} />
-          </div>
-          <Bottom />
-        </div>
-      </Provider>
-    </SessionProvider>
-  )
+    return (
+      <SessionProvider session={session}>
+        <Provider store={store}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+        </Provider>
+      </SessionProvider>
+    )
 }
 export default MyApp

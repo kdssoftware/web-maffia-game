@@ -83,7 +83,7 @@ const Top = () => {
       
     return (
         <>
-        <div className="hidden text-green-500 text-blue-500">{/* FOR TAILWIND CSS  */}</div> 
+        <div className="hidden text-red-500 text-green-500 text-blue-500">{/* FOR TAILWIND CSS  */}</div> 
         <div className="z-10 flex flex-row justify-between cursor-default bg-slate-900">
             <div className="flex flex-col w-32 py-3">
                 <div className="flex flex-row" onMouseOver={()=>{setHover("level")}} onMouseLeave={()=>{setHover(null)}}>
