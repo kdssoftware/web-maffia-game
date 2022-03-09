@@ -29,6 +29,11 @@ export interface IUser {
         jobRefId: string;
         times: number;
       }[];
+    timings:{
+        energyFull: number | null;
+        ammoFull: number | null;
+        healthFull: number | null;
+    }
     ref: Ref;
 }
 
@@ -54,6 +59,11 @@ class User implements IUser {
         jobRefId: string;
         times: number;
       }[];
+    timings!:{
+        energyFull: number | null;
+        ammoFull: number | null;
+        healthFull: number | null;
+    }
     ref!:Ref
     
     constructor(name:string, email:string) {
@@ -83,6 +93,7 @@ class User implements IUser {
                 this.lastUpdated = userData.data.lastUpdated;
                 this.attributePoints = userData.data.attributePoints;
                 this.jobs = userData.data.jobs;
+                this.timings = userData.data.timings;
             }else{
                 this.level = 1;
                 this.dollars = 2000;
@@ -100,6 +111,11 @@ class User implements IUser {
                 this.attributePoints = 0;
                 this.lastUpdated = (new Date()).toISOString();
                 this.jobs = []
+                this.timings = {
+                    energyFull: null,
+                    ammoFull: null,
+                    healthFull: null
+                }
                 await createNewUser(this).then(user => {
                     this.ref = user.ref;
                 })

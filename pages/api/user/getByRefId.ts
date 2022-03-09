@@ -2,20 +2,28 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { User } from '@models/User';
 import { Job } from '@models/Job';
+import { getSession } from "next-auth/react"
+import {updateEnergyBasedOnTiming} from "@controller/User";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    const userRefId = req.query.id || req.body.id;
-    if(!userRefId) {
+    const session = await getSession({ req })
+    if(!session) {
         res.status(400).json({ error: 'User id is required' });
         return;
-    }
-    const user = await User.getByRef(userRefId);
-    if(!user) {
-        res.status(400).json({ error: 'User not found' });
+    }else if(session && session.user.refId) {
+        const userRefId = req.query.id as string||session.user.refId;
+        const user = await User.getByRef(userRefId);
+        await updateEnergyBasedOnTiming(user);
+        if(!user) {
+            res.status(400).json({ error: 'User not found' });
+            return;
+        }
+        res.status(200).json(user);
         return;
     }
-    res.status(200).json(user);
+   res.status(401).json({ error: 'User not logged in' }); 
+   return;
 }

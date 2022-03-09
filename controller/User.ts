@@ -3,6 +3,7 @@ import { User, UserData } from "@models/User";
 import { Job, JobData } from "@models/Job";
 import { getJobByRef, getAllJobs } from "./Job";
 import {generateNumberFromRange} from "@utils/generateNumberFromRange";
+import generateTiming from "@utils/generateTiming";
 
 export const createNewUser = async (user: User): Promise<User> => {
   const userRef: UserData = await client.query(
@@ -86,6 +87,10 @@ export const userDoesJob = async (user :User, jobRefId: string) => {
     user.lastUpdated = new Date().toISOString();
     const dollars = Number(generateNumberFromRange(jobData.data.minDollars, jobData.data.maxDollars));
     user.dollars += dollars;
+    user.timings = {
+      ...user.timings,
+      energyFull: generateTiming(user.energyMAX - user.energy, 5),
+    }
     if(!user.jobs)
       user.jobs = [];
     const foundJob = user.jobs.find(job => job.jobRefId === jobRefId)
@@ -126,6 +131,7 @@ export const update = async (user: User) => {
           ammo: user.ammo,
           ammoMax: user.ammoMax,
           lastUpdated: new Date().toISOString(),
+          timings: user.timings,
           jobs: user.jobs,
         },
       })
@@ -147,8 +153,39 @@ export const levelUp = async (user: User) => {
   user.health = user.healthMax;
   user.experience = 0;
   user.experienceMax += 10;
-  await update(user);
+  user.timings.ammoFull = null;
+  user.timings.energyFull = null;
+  user.timings.healthFull = null;
+  await update(user); 
 }
+
+export const updateEnergyBasedOnTiming = async (user:User) => {
+  if(user.timings.energyFull){
+    const now = Date.now()
+    const diff = user.timings.energyFull - now;
+    const energyCurrent = user.energy 
+    const energyMax = user.energyMAX
+    const energyDiff = energyMax - energyCurrent
+    console.log(energyDiff);
+    if(diff > 0){
+      const energyTiming = 5 * 1000 * 60 // 5 min in ms
+      const energyToAdd = Math.abs(Math.ceil(diff /energyTiming)-energyDiff)
+      console.log("Adding "+energyToAdd+" energy", diff, energyDiff);
+      if(energyMax===energyCurrent){
+        user.timings.energyFull = null;
+      }
+      if(energyToAdd >= 0){
+        user.energy += energyToAdd
+        await update(user);
+      }
+    }else if (diff < 0 || user.timings.energyFull){
+      user.energy = energyMax
+      user.timings.energyFull = null
+      await update(user);
+    }
+  }
+}
+
 
 export const _delete = async (user: User) => {
   await client.query(

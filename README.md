@@ -6,7 +6,8 @@ An upcoming web game.
 
 Using the following technologies:
 - Next.js 12 (frontend + backend framework)
-- Faunadb (Database)
+- Faunadb (Serverless database)
+- Redux (for data flow)
 - Vercel (Hosting)
 - Tailwind CSS (Styling)
 - Cypress (frontend testing)

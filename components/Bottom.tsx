@@ -11,7 +11,7 @@ const Bottom = () => {
     const buttonCss = 'flex py-5 flex-col justify-center hover:bg-gradient-to-br hover:from-slate-500 hover:to-slate-800 transition-all duration-500 ease-in-out';
     const router = useRouter();
     return (
-        <div className="bg-slate-900 grid grid-cols-4 w-full absolute bottom-0">
+        <div className="absolute bottom-0 z-10 grid w-full grid-cols-4 bg-slate-900">
             <Link href="/">
                 <a>
                     <div className={buttonCss + " " + (router.pathname==="/" ? activeCss:"")}>

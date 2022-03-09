@@ -26,12 +26,12 @@ const Jobs: NextPage = ({
             }
         }
         doAsync()
-    }, [])
+    }, [session])
 
     return (
         <>
-        <div className='flex flex-row justify-center'>
-            <div className='flex flex-col justify-center w-4/5'>
+        <div className='flex flex-row justify-center '>
+            <div className='flex flex-col justify-center w-full mx-12 '> 
             {
                 jobs.map((jobdata, i) => {
                     return <JobComponent jobData={jobdata} key={i} />

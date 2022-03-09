@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@lib/*":["lib/*"],
       "@fauna":["lib/faunadb.ts"],
       "@models/*":["models/*"],
       "@utils/*":["utils/*"],

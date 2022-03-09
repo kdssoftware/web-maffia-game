@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { User } from '@models/User';
 import { Job } from '@models/Job';
 import { getSession } from "next-auth/react"
+import {updateEnergyBasedOnTiming} from "@controller/User";
 
 export default async function handler(
   req: NextApiRequest,
@@ -16,11 +17,12 @@ export default async function handler(
         const job = await Job.getByRef(id);
         if(!user || !job) {
             res.status(400).json({ error: 'User or job not found' });
+            return;
         }
-        await user.doJob(job.getRefId());
+        await updateEnergyBasedOnTiming(user);
+        let success = await user.doJob(job.getRefId());
         session.user.updateTop = true;
-        console.log(session.user);
-        res.status(200).json(user);
+        res.status(200).json(success);
         return;
     }else{
       res.status(404).json({ error: 'User or job not found' });
