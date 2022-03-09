@@ -17,4 +17,4 @@ Using the following technologies:
 this is an update on my old Java (JSP) project [https://github.com/kdssoftware/Webbased-Game](https://github.com/kdssoftware/Webbased-Game)
 
 ## Current look: 
-![image](https://user-images.githubusercontent.com/10829524/157038138-98f849da-91f7-4fa3-93f2-b35b86943743.png)
+![image](https://user-images.githubusercontent.com/10829524/157106544-165539b4-df66-40db-8d8e-517bb47ed712.png)
