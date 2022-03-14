@@ -1,22 +1,31 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useAppSelector, useAppDispatch } from '@lib/redux/hooks'
 import { useSession, signIn, signOut } from "next-auth/react"
 import { fetchTopAsync } from '@lib/redux/features/Top/TopSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBolt} from "@fortawesome/free-solid-svg-icons"
 import {Job, JobData} from '@models/Job'
+import { doJob as fetchDoJob, selectCurrentJob } from '@lib/redux/features/CurrentJob/CurrentJobSlice'
 
 const JobButton = ({jobData} : {jobData:JobData}) => {
     const { data: session, status } = useSession()
     const dispatch = useAppDispatch()
+    const currentJob = useAppSelector(selectCurrentJob)
+    const [hover,setHover] = useState(false)
+    
     const doJob = async (jobRefId :string) => {
-        const res = await fetch('/api/job/do?id=' + jobRefId)
-        const success = await res.json() as boolean
-        if(success && session && session.user.refId){
-            dispatch(fetchTopAsync(session?.user.refId))
+        if(session){
+            dispatch(fetchDoJob(jobRefId))
+        }else{
+            signOut();
         }
     }
-    const [hover,setHover] = useState(false)
+
+    useEffect(()=>{
+         if(currentJob && session && session.user.refId){
+                dispatch(fetchTopAsync(session?.user.refId))
+         }
+    },[currentJob, dispatch, session])
 
     return (
         <div className="flex flex-col justify-center mr-5">

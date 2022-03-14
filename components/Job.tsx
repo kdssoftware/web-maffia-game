@@ -1,13 +1,43 @@
 import {  JobData } from "@models/Job"
+import { useSession, signIn, signOut } from "next-auth/react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCrown, faDollarSign} from "@fortawesome/free-solid-svg-icons"
+import { faCrown, faDollarSign,faUserTie} from "@fortawesome/free-solid-svg-icons"
 import JobButton from "@components/buttons/JobButton"
+import calcJobDifficulty from "@utils/calcJobDificulty";
+import {User} from "@models/User"
+import { useAppSelector, useAppDispatch, useInterval } from '@lib/redux/hooks'
+import { fetchTopAsync, selectTop } from '@lib/redux/features/Top/TopSlice'
+import { useEffect, useState } from "react";
+import getInfoFromDifficulty from "@utils/getInfoFromDifficulty"
 
 const JobComponent = ({jobData} : {jobData:JobData})   => {
+    const dispatch = useAppDispatch()
+    const { data: session, status } = useSession()
+    const user = useAppSelector(selectTop)
+    const [difficulty,setDifficulty] = useState<number|null>(null)
+
+    useEffect(()=>{
+        if(user && session){
+            setDifficulty(calcJobDifficulty(user.level, jobData.data.minLevel,jobData.data.maxLevel))
+        }
+     },[jobData.data.maxLevel, jobData.data.minLevel, session, user])
+     
     return (
         <div className="w-full px-1 py-3 h-min">
-            <div className="bg-amber-900 pl-4 text-2xl pb-0.5 capitalize text-white border-b-2 border-default">
-                {jobData.data.name}
+            <div className="bg-amber-900 px-4 text-2xl pb-0.5 capitalize text-white border-b-2 border-default flex justify-between">
+                <div>
+                    {jobData.data.name}
+                </div>
+                <div className="font-normal text-white ">
+                    {
+                        difficulty? 
+                        <div className={getInfoFromDifficulty(difficulty)?.twcss}>
+                            {getInfoFromDifficulty(difficulty)?.string}
+                            </div>
+                            :
+                        <div>...</div>
+                    }
+                </div>
             </div>
             <div className="py-2 pl-2 bg-slate-900 text-default ">
                 <div className="flex flex-row justify-between">

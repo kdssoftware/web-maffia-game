@@ -14,11 +14,15 @@ import { useState, useEffect } from 'react'
 import Bottom from '@components/Bottom'
 import JobSuccess from '@components/JobSuccess'
 
+import { useAppSelector, useAppDispatch, useInterval } from '@lib/redux/hooks'
+import { empty, selectCurrentJob } from '@lib/redux/features/CurrentJob/CurrentJobSlice'
 
 const Jobs: NextPage = ({
 
 }) => {
     const { data: session, status } = useSession()
+    const dispatch = useAppDispatch()
+    const currentJob = useAppSelector(selectCurrentJob)
     const [jobs, setJobs] = useState<JobData[]>([])
     useEffect(() => {
         const doAsync = async () => {
@@ -29,38 +33,17 @@ const Jobs: NextPage = ({
         }
         doAsync()
     }, [session])
-
     return (
         <>
         <div className='flex flex-row justify-center '>
             <div className='flex flex-col justify-center w-full mx-12 '> 
-            <JobSuccess job={jobs[0]} result={true} receivings={[
-                {
-                    icon: faMoneyBill,
-                    value: ('$' + 100),
-                    color: 'text-green-500'
-                },
-                {
-                    icon: faCrown,
-                    value:("Experience +" + 1),
-                    color:"text-default"
-                }
-            ]}/>
-            {/* <JobSuccess job={jobs[0]} result={false} receivings={[
-                {
-                    icon: faMoneyBill,
-                    value: ('$' + 100),
-                    color: 'text-green-500'
-                },
-                {
-                    icon: faCrown,
-                    value:("Experience +" + 1),
-                    color:"text-default"
-                }
-            ]}/> */}
+            {
+                currentJob && 
+                <JobSuccess job={currentJob}/>
+            }
             {
                 jobs.map((jobdata, i) => {
-                    return <JobComponent jobData={jobdata} key={i} />
+                    return <JobComponent jobData={jobdata}  key={i} />
                 }) ?? "no jobs"
             }
             </div>

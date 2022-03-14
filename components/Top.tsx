@@ -3,10 +3,10 @@ import Link from 'next/link'
 import { User } from '@models/User'
 import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserTie, faCoins, faMoneyBill, faGun, faBolt, faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faUserTie, faCoins, faMoneyBill, faGun, faBolt, faHeart, faCrown } from '@fortawesome/free-solid-svg-icons'
 import { useAppSelector, useAppDispatch, useInterval } from '@lib/redux/hooks'
 import { fetchTopAsync, selectTop } from '@lib/redux/features/Top/TopSlice'
-import mstoMin from '@utils/mstoMin'
+import msToMin from '@utils/msToMin'
 // @next/react-refresh-utils
 const Top = () => {
     const { data: session, status } = useSession()
@@ -87,7 +87,7 @@ const Top = () => {
         <div className="z-10 flex flex-row justify-between cursor-default bg-slate-900">
             <div className="flex flex-col w-32 py-3">
                 <div className="flex flex-row" onMouseOver={()=>{setHover("level")}} onMouseLeave={()=>{setHover(null)}}>
-                    <FontAwesomeIcon icon={faUserTie} size="2x" className={"w-1/2 "+(hover==="level"?"text-"+hoverColor:"text-default")} />
+                    <FontAwesomeIcon icon={faCrown} size="2x" className={"w-1/2 "+(hover==="level"?"text-"+hoverColor:"text-default")} />
                     <div className="grid w-1/2 grid-rows-2">
                         <div className={"font-bold "+(hover==="level"?"text-"+hoverColor:"text-default")}>
                             {user?.level??"..."}
@@ -152,7 +152,7 @@ const Top = () => {
                         <div className="text-gray-400">
                             {
                                 user?.energy != user?.energyMAX  && (energyTiming??-1) > 0 ? (
-                                    energyTiming?mstoMin(energyTiming-1000):"..."
+                                    energyTiming?msToMin(energyTiming-1000):"..."
                                 ): (
                                     "Energy"
                                 )

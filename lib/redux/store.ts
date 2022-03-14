@@ -1,11 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 
 import topReducer from '@lib/redux/features/Top/TopSlice';
+import currentJobReducer from '@lib/redux/features/CurrentJob/CurrentJobSlice';
 
 export function makeStore() {
   return configureStore({
     reducer: { 
-      top: topReducer
+      top: topReducer,
+      currentJob: currentJobReducer
     },
   })
 }

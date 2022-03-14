@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { User } from '@models/User';
-import { Job } from '@models/Job';
+import { CurrentJob } from '@models/CurrentJob';
+import {Job} from "@models/Job";
 import { getSession } from "next-auth/react"
 import {updateEnergyBasedOnTiming} from "@controller/User";
 
@@ -20,10 +21,15 @@ export default async function handler(
             return;
         }
         await updateEnergyBasedOnTiming(user);
-        let success = await user.doJob(job.getRefId());
-        session.user.updateTop = true;
-        res.status(200).json(success);
-        return;
+        let currentJob  : CurrentJob | undefined = await user.doJob(job.getRefId());
+        if(currentJob === undefined){
+            res.status(400).json({ error: 'Job not found' });
+            return;
+        }else{
+          session.user.updateTop = true;
+          res.status(200).json(currentJob);
+          return;
+        }
     }else{
       res.status(404).json({ error: 'User or job not found' });
       return;

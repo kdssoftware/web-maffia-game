@@ -3,7 +3,9 @@ import { User, UserData } from "@models/User";
 import { Job, JobData } from "@models/Job";
 import { getJobByRef, getAllJobs } from "./Job";
 import {generateNumberFromRange} from "@utils/generateNumberFromRange";
+import {CurrentJob, Receiving } from "@models/CurrentJob"
 import generateTiming from "@utils/generateTiming";
+import { faUserTie, faCoins, faMoneyBill, faGun,faCrown, faBolt, faHeart, faL } from '@fortawesome/free-solid-svg-icons'
 
 export const createNewUser = async (user: User): Promise<User> => {
   const userRef: UserData = await client.query(
@@ -77,20 +79,39 @@ export const getUserByEmail = async (email: string): Promise<UserData | null> =>
   }
 };
 
-export const userDoesJob = async (user :User, jobRefId: string) => {  
-  const jobData = await getJobByRef(jobRefId)
+export const userDoesJob = async (user :User, jobRefId: string) : Promise<CurrentJob> => {  
+  const jobData : JobData = await getJobByRef(jobRefId)
+  const currentJob : CurrentJob= {
+    result: false,
+    job: jobData
+  }
   const checkLevel = user.level >= jobData.data.minLevel && user.level <= jobData.data.maxLevel
   const checkEnergy = user.energy >= jobData.data.energy;
   if(checkLevel && checkEnergy){
+
     user.energy -= Number(jobData.data.energy);
-    user.experience += Number(jobData.data.experience);
+    const experienceGained = Number(jobData.data.experience);
+    user.experience += experienceGained
     user.lastUpdated = new Date().toISOString();
-    const dollars = Number(generateNumberFromRange(jobData.data.minDollars, jobData.data.maxDollars));
-    user.dollars += dollars;
+    const dollarsGained = Number(generateNumberFromRange(jobData.data.minDollars, jobData.data.maxDollars));
+    const receivings : Receiving[] = [
+      {
+        icon: faMoneyBill,
+        value: ('$' + dollarsGained),
+        color: 'text-green-500'
+      },
+      {
+          icon: faCrown,
+          value:("Experience +" + experienceGained),
+          color:"text-default"
+      }
+    ]
+    user.dollars += dollarsGained;
     user.timings = {
       ...user.timings,
       energyFull: generateTiming(user.energyMAX - user.energy, 5),
     }
+
     if(!user.jobs)
       user.jobs = [];
     const foundJob = user.jobs.find(job => job.jobRefId === jobRefId)
@@ -107,9 +128,12 @@ export const userDoesJob = async (user :User, jobRefId: string) => {
         times: 1
       })
     }
-    return true;
+    currentJob.result= true
+    currentJob.receivings = receivings;
+    return currentJob;
+
   }else{
-      return false;
+      return currentJob;
   }
 
 }

@@ -2,6 +2,8 @@ import generateCode from "@utils/generateCode";
 import { createNewUser, getUserByEmail, getUserByRef, update, userDoesJob, getAvailableJobsForUser} from "@controller/User";
 import {Ref} from "@fauna";
 
+import {CurrentJob} from "@models/CurrentJob"
+
 export type UserData =  {
     ref: Ref;
     data: IUser;
@@ -126,12 +128,11 @@ class User implements IUser {
     public doJob = async (jobRefId : string) => {
         if(this.ref){
             const jobDone = await userDoesJob(this, jobRefId);
-            if(jobDone){
-                console.log("Job done");
+            if(jobDone.result===true){
                 await update(this);
-                return true;
+                return jobDone;
             }else{
-                return false;
+                return jobDone;
             }
         }
     }
