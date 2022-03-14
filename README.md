@@ -16,8 +16,6 @@ Using the following technologies:
 
 this is an update on my old Java (JSP) project [https://github.com/kdssoftware/Webbased-Game](https://github.com/kdssoftware/Webbased-Game)
 
-## Current look: 
-![image](https://user-images.githubusercontent.com/10829524/157524672-1d07483e-6114-4a4c-8e1c-f857e82ab813.png)
 ### If you want this yourself use the following enviroment variabels:
 ```
 FAUNA_SECRET=_FAUNA_DB_SECRET_
@@ -28,3 +26,7 @@ NEXTAUTH_SECRET=_SELF_DEFINED_SECRET_
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_URL_INTERNAL=http://localhost:3000
 ```
+
+## Current look: 
+![image](https://user-images.githubusercontent.com/10829524/158248477-e9ab585a-eff5-4cfc-9a10-5dce39e02ff7.png)
+![image](https://user-images.githubusercontent.com/10829524/158248512-86744da9-903f-420a-bfca-8496f9441cfd.png)
