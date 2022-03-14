@@ -22,7 +22,8 @@ const JobSuccess = (
         </div>
     )
     return (
-        <div className="w-full my-4 h-min bg-slate-700">
+        <div className="w-full px-1 py-3 h-min">
+            <div className="bg-slate-700">
             <div className={"py-1 text-4xl font-bold text-center text-white "+(job.result?"bg-green-700":"bg-red-700")}>
                 {job.result ? "Success" : "Failed"}
             </div>
@@ -48,7 +49,7 @@ const JobSuccess = (
                 </div>
                 <JobButton jobData={job.job} />
             </div>
-
+            </div>
         </div>
     )
 }

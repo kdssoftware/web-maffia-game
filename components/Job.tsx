@@ -3,7 +3,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCrown, faDollarSign,faUserTie} from "@fortawesome/free-solid-svg-icons"
 import JobButton from "@components/buttons/JobButton"
-import calcJobDifficulty from "@utils/calcJobDificulty";
+import calcJobDifficulty from "@utils/calcJobDifficulty";
 import {User} from "@models/User"
 import { useAppSelector, useAppDispatch, useInterval } from '@lib/redux/hooks'
 import { fetchTopAsync, selectTop } from '@lib/redux/features/Top/TopSlice'
@@ -32,7 +32,7 @@ const JobComponent = ({jobData} : {jobData:JobData})   => {
                     {
                         difficulty? 
                         <div className={getInfoFromDifficulty(difficulty)?.twcss}>
-                            {getInfoFromDifficulty(difficulty)?.string}
+                            {getInfoFromDifficulty(difficulty)?.difficultyPercentage}%
                             </div>
                             :
                         <div>...</div>

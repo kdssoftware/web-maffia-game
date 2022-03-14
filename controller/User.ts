@@ -6,6 +6,7 @@ import {generateNumberFromRange} from "@utils/generateNumberFromRange";
 import {CurrentJob, Receiving } from "@models/CurrentJob"
 import generateTiming from "@utils/generateTiming";
 import { faUserTie, faCoins, faMoneyBill, faGun,faCrown, faBolt, faHeart, faL } from '@fortawesome/free-solid-svg-icons'
+import calcJobDifficulty from "@utils/calcJobDifficulty";
 
 export const createNewUser = async (user: User): Promise<User> => {
   const userRef: UserData = await client.query(
@@ -87,8 +88,10 @@ export const userDoesJob = async (user :User, jobRefId: string) : Promise<Curren
   }
   const checkLevel = user.level >= jobData.data.minLevel && user.level <= jobData.data.maxLevel
   const checkEnergy = user.energy >= jobData.data.energy;
-  if(checkLevel && checkEnergy){
-
+  const difficultyPercentage = ( calcJobDifficulty(user.level, jobData.data.minLevel, jobData.data.maxLevel) + 1 ) * 25
+  const randomPercentage = generateNumberFromRange(0, 100)
+  const checkSucceededByDifficulty = randomPercentage < difficultyPercentage
+  if(checkLevel && checkEnergy && checkSucceededByDifficulty){
     user.energy -= Number(jobData.data.energy);
     const experienceGained = Number(jobData.data.experience);
     user.experience += experienceGained

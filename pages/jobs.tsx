@@ -36,7 +36,7 @@ const Jobs: NextPage = ({
     return (
         <>
         <div className='flex flex-row justify-center '>
-            <div className='flex flex-col justify-center w-full mx-12 '> 
+            <div className='flex flex-col justify-center w-full '> 
             {
                 currentJob && 
                 <JobSuccess job={currentJob}/>
