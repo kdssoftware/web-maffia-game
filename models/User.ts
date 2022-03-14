@@ -31,6 +31,10 @@ export interface IUser {
         jobRefId: string;
         times: number;
       }[];
+    enhancements:{
+        enhancementRefId: string;
+        amount: number;
+    }[]
     timings:{
         energyFull: number | null;
         ammoFull: number | null;
@@ -61,6 +65,10 @@ class User implements IUser {
         jobRefId: string;
         times: number;
       }[];
+    enhancements!: {
+        enhancementRefId: string; 
+        amount: number; 
+    }[];
     timings!:{
         energyFull: number | null;
         ammoFull: number | null;
@@ -96,6 +104,7 @@ class User implements IUser {
                 this.attributePoints = userData.data.attributePoints;
                 this.jobs = userData.data.jobs;
                 this.timings = userData.data.timings;
+                this.enhancements = userData.data.enhancements;
             }else{
                 this.level = 1;
                 this.dollars = 2000;

@@ -1,4 +1,4 @@
-import { getEnhancementByName } from "@controller/Enhancement";
+import { getEnhancementByName, purchase, getEnhancementByRef } from "@controller/Enhancement";
 import {Ref} from "@fauna";
 
 export interface IEnhancement {
@@ -37,7 +37,7 @@ export class Enhancement implements IEnhancement {
         this.name = name;
     }
 
-    get = async () =>  {
+    public get = async () =>  {
         await getEnhancementByName(this.name).then(enhancementData => {
             if(enhancementData){
                 this.type = enhancementData.data.type;
@@ -57,8 +57,16 @@ export class Enhancement implements IEnhancement {
         return Object.values(enhancementData.ref)[0].id
     }
 
+    public static async getClassByRefId(refId : string) : Promise<Enhancement>{
+        return await getEnhancementByRef(refId);
+    } 
+
     public getRefId() : string {
         //@ts-ignore
         return String(Object.values(this.ref)[0].id)
+    }
+
+    public async purchase(userRefId :  string, amount:number = 1){
+        return await purchase(userRefId, this.getRefId(), amount);
     }
 }

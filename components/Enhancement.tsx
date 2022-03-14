@@ -2,10 +2,10 @@ import { EnhancementData } from "@models/Enhancement";
 import EnhancementButton from "@components/buttons/EnhancementButton";
 
 const Enhancement = ({enhancementData} : { enhancementData : EnhancementData}) => {
-    var formatter = new Intl.NumberFormat('en-US', {
+    const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD'
-      });
+    });
     return (
         <div className="w-full px-1 py-3 h-min">
         <div className="bg-amber-900 px-4 text-2xl pb-0.5 capitalize text-white border-b-2 border-default flex justify-between">

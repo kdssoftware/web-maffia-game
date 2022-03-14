@@ -12,7 +12,10 @@ const Home: NextPage = ({
   const activeCss = 'bg-gradient-to-br from-slate-500 to-slate-800';
   const inactiveCss = 'bg-slate-900 ' 
   const buttonCss = 'flex py-2 flex-col justify-center hover:bg-gradient-to-br hover:from-slate-500 hover:to-slate-800 transition-all duration-500 ease-in-out';
-  
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  });
   useEffect(() => {
     const doAsync = async () => {
         if (session && session.user.refId) {
@@ -24,7 +27,7 @@ const Home: NextPage = ({
 }, [session])
   return (
     <>
-    <div className='grid grid-cols-3 mb-3 mb-5'>
+    <div className='grid grid-cols-3'>
       {
         Object.values(EnhancementType).map((type, i) => {
           return <button 
@@ -32,6 +35,9 @@ const Home: NextPage = ({
           onClick={() => setCurrentTypeViewing(type)} key={i}>{type}</button>
         })
       }
+    </div>
+    <div className='mx-2 my-3'>
+      <div className='text-lg text-white'>Upkeep:  {formatter.format(0)}</div>
     </div>
     <div>
       {
