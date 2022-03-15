@@ -159,6 +159,7 @@ export const update = async (user: User) => {
           ammoMax: user.ammoMax,
           lastUpdated: new Date().toISOString(),
           timings: user.timings,
+          enhancements: user.enhancements,
           jobs: user.jobs,
         },
       })

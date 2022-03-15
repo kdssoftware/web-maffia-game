@@ -146,25 +146,40 @@ class User implements IUser {
         }
     }
 
-    public static async getByRef(refId:string) {
+    public getAmountOfSpecificEnhancement = (enhancementRefId: string) :number => {
+        if(!this){
+            throw "No object found, use static method"
+        }
+        if(!this.enhancements){
+            return 0;
+        }
+        return this.enhancements.find(enhancement => enhancement.enhancementRefId === enhancementRefId)?.amount??0;
+    }
+
+    public static  getAmountOfSpecificEnhancementStatic =async (enhancementRefId: string, userRefId: string) => {
+        let userObj = await User.getByRef(userRefId)
+        return userObj.getAmountOfSpecificEnhancement(enhancementRefId);
+    }
+
+    public static  getByRef = async (refId:string) => {
         return await getUserByRef(refId);
     }
 
-    public getRefId() {
+    public getRefId = () => {
         //@ts-ignore
         return Object.values(this.ref)[0].id
     }
 
-    public static getRefIdStatic(user:User) {
+    public static getRefIdStatic = (user:User)=> {
         //@ts-ignore
         return Object.values(user.ref)[0].id
     }
 
-    public async getAvailableJobs() {
+    public  getAvailableJobs = async () =>{
         return await getAvailableJobsForUser(this.getRefId());
     }
 
-    public  static async getAvailableJobsStatic (userRefId: string){
+    public  static  getAvailableJobsStatic = async (userRefId: string) => {
         return await getAvailableJobsForUser(userRefId);
     }
 
