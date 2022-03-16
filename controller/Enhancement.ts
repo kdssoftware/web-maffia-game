@@ -69,7 +69,9 @@ export const purchase = async (userRefId: string, enhancementRefId: string, amou
       if(!user.enhancements){
         user.enhancements = [{
           enhancementRefId:enhancementRefId, 
-          amount:amount
+          amount:amount,
+          firstTimeStamp: Date.now(),
+          lastTimeStamp: Date.now()
         }]
       }else{
         const enhancementFound = user.enhancements.find(enh => enh.enhancementRefId === enhancementRefId);
@@ -77,13 +79,16 @@ export const purchase = async (userRefId: string, enhancementRefId: string, amou
           user.enhancements = user.enhancements.map(enh => {
             if(enh.enhancementRefId == enhancementRefId){
               enh.amount += amount;
+              enh.lastTimeStamp = Date.now();
             }
             return enh;
           })
         }else{
           user.enhancements.push({
             enhancementRefId: enhancementRefId,
-            amount: amount
+            amount: amount,
+            firstTimeStamp: Date.now(),
+            lastTimeStamp: Date.now()
           })
         }
       }

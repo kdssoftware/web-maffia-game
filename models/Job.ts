@@ -16,6 +16,7 @@ export interface IJob {
     maxDollars: number;
     energy: number;
     experience: number;
+    lastUpdated: number;
     ref:Ref;
 }
 
@@ -28,6 +29,7 @@ export class Job implements IJob {
     maxDollars!: number;
     energy!: number;
     experience!: number;
+    lastUpdated!: number;
     ref!: Ref;
 
     constructor(
@@ -55,6 +57,7 @@ export class Job implements IJob {
                 this.maxDollars = job.data.maxDollars;
                 this.energy = job.data.energy;
                 this.experience = job.data.experience;
+                this.lastUpdated = job.data.lastUpdated;
                 this.ref = job.ref;
             }else{
                 await createNewJob(this).then(job => {
@@ -65,7 +68,12 @@ export class Job implements IJob {
     }
 
     static async getByRef(refId:string) : Promise<Job> {
-        return await getJob(refId);
+        const jobfound =  await getJob(refId);
+        if(jobfound) {
+            return jobfound;
+        }else{
+            throw new Error("Job not found");
+        }
     }
 
     public getRefId() : string {

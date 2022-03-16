@@ -1,8 +1,12 @@
+import { zeroPad  as z} from "@utils/numberFunctions";
+import { generateNumberFromRange as gen } from "@utils/generateNumberFromRange";
 
-const generateCode = () : string => {
-    const code = Date.now().toString(8).split("").reverse().splice(0,12).join("");
-    return code.substring(0,4) + "." + code.substring(4,8) + "." + code.substring(8,12);
-     
+/**
+ * Generates a code. This is used for inviations of other users.
+ * @returns a code with format `xxx.xxx.xxx` where x is a random number
+ */
+ const generateCode = () : string => {
+     return `${z(gen(0,999),3)}.${z(gen(0,999),3)}.${z(gen(0,999),3)}`;
 }
 
 export default generateCode;

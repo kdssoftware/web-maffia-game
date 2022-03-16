@@ -1,21 +1,13 @@
 
-//default nextpage
-
-import Top from '@components/Top'
-import SignButton from '@components/auth/SignButton'
 import type { NextPage } from 'next'
-import { faUserTie, faCoins, faMoneyBill, faGun,faCrown, faBolt, faHeart, faL } from '@fortawesome/free-solid-svg-icons'
-import { useSession, signIn, signOut } from "next-auth/react"
-import { getAvailableJobsForUser } from '@controller/User'
-import { getUserByEmail } from '@controller/User'
+import { useSession } from "next-auth/react"
 import JobComponent from '@components/Job'
-import { Job, JobData } from '@models/Job'
+import { JobData } from '@models/Job'
 import { useState, useEffect } from 'react'
-import Bottom from '@components/Bottom'
 import JobSuccess from '@components/JobSuccess'
 
 import { useAppSelector, useAppDispatch, useInterval } from '@lib/redux/hooks'
-import { empty, selectCurrentJob } from '@lib/redux/features/CurrentJob/CurrentJobSlice'
+import { selectCurrentJob } from '@lib/redux/features/CurrentJob/CurrentJobSlice'
 
 const Jobs: NextPage = ({
 

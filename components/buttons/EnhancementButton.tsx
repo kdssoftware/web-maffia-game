@@ -9,7 +9,7 @@ import { faBolt, faCoins } from "@fortawesome/free-solid-svg-icons"
 import { Job, JobData } from '@models/Job'
 import { EnhancementData, Enhancement } from "@models/Enhancement"
 
-const EnhancementButton = ({ enhancementData, showAmount = false }: { enhancementData: EnhancementData, showAmount: boolean }) => {
+const EnhancementButton = ({ enhancementData, showAmount = false }: { enhancementData: EnhancementData, showAmount: boolean}) => {
     const { data: session, status } = useSession()
     const dispatch = useAppDispatch()
     const currentEnhancement = useAppSelector(selectCurrentEnhancement)
@@ -46,7 +46,7 @@ const EnhancementButton = ({ enhancementData, showAmount = false }: { enhancemen
                 >
                     <FontAwesomeIcon icon={faCoins} size="2x" className={"w-10 " + (hover ? "text-yellow-500" : "text-yellow-200 ")} />
                     <div className={"h-full text-2xl font-bold text-center " + (hover ? "text-yellow-500" : "text-yellow-200 ")}>
-                        {enhancementData.data.cost ? formatter.format(enhancementData?.data.cost) : "..."}
+                        {enhancementData.data.cost ? formatter.format(showAmount?enhancementData?.data.cost*amount??1 :  enhancementData?.data.cost) : "..."}
                     </div>
                 </button>
             </div>

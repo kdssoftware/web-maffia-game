@@ -45,8 +45,16 @@ const Home: NextPage = ({
         })
       }
     </div>
-    <div className='mx-2 my-3'>
-      <div className='text-lg text-white'>Upkeep:  {formatter.format(0)}</div>
+    <div className='grid w-full grid-cols-3 mt-2 place-content-center'>
+      <div className='ml-2 text-lg text-white'>Upkeep:  
+      <span className='ml-1 text-bold'>{formatter.format(user?.totalUpkeep??0)}</span>
+      </div>
+      <div className='text-lg text-white'>Defence:
+      <span className='ml-1 text-bold'> {user?.totalDefence??0}</span>
+      </div>
+      <div className='text-lg text-white'>Attack: 
+      <span className='ml-1 text-bold'>{user?.totalAttack??0}</span>
+      </div>
     </div>
     {
       currentEnhancement && <EnhancementSuccess currentEnhancement={currentEnhancement}/>

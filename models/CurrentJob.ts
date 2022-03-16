@@ -4,6 +4,7 @@ import type { IconDefinition } from "@fortawesome/fontawesome-svg-core"
 export type CurrentJob = {
     job: JobData;
     result: boolean;
+    timestamp: number;
     receivings?: Receiving[]
 }
 

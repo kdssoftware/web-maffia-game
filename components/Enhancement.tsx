@@ -28,10 +28,14 @@ const EnhancementComponent = ({enhancementData} : { enhancementData : Enhancemen
         <div className="py-2 pl-2 bg-slate-900 text-default ">
             <div className="flex flex-row justify-between">
                 <div className="w-4/5">
-                    <div>Attack: {enhancementData.data.attack}</div>
-                    <div>Defence: {enhancementData.data.defence}</div>
+                    <div>Attack: {enhancementData.data.attack??0}</div>
+                    <div>Defence: {enhancementData.data.defence??0}</div>
+                    {
+                        enhancementData.data.upkeep && 
+                        <div>Upkeep : {enhancementData.data.upkeep}</div>
+                    }
                 </div>
-                <EnhancementButton enhancementData={enhancementData} />
+                <EnhancementButton enhancementData={enhancementData} showAmount={false} />
             </div>
         </div>
         </div>

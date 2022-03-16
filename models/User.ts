@@ -1,5 +1,5 @@
 import generateCode from "@utils/generateCode";
-import { createNewUser, getUserByEmail, getUserByRef, update, userDoesJob, getAvailableJobsForUser} from "@controller/User";
+import { createNewUser, getUserByEmail, getUserByRef, update, userDoesJob,getAvailableJobsForUserByRefId,  getAvailableJobsForUser} from "@controller/User";
 import {Ref} from "@fauna";
 
 import {CurrentJob} from "@models/CurrentJob"
@@ -10,37 +10,49 @@ export type UserData =  {
 }
 
 export interface IUser {
-    email: string;
-    level : number;
-    dollars: number;
-    energy: number;
-    energyMAX: number;
-    chips: number;
-    health: number;
-    healthMax: number;
-    experience: number;
-    experienceMax: number;
-    ammo: number;
-    ammoMax: number;
-    name: string;
-    code: string;
-    country:string;
-    lastUpdated: string;
-    attributePoints: number;
-    jobs: {
-        jobRefId: string;
-        times: number;
+    email: string; //Email address
+    level : number; //Level of the user, starts with 1. does not have a limit
+    dollars: number; // Amount of money the user has
+    energy: number; // Amount of energy the user has, cannot be negative
+    energyMAX: number; // Max amount of energy the user can have, starts with 100
+    chips: number; // Amount of chips the user has
+    health: number; //  Amount of health the user has, cannot be negative
+    healthMax: number; // Amount of health the user can have, starts with 200
+    experience: number; // Amount of experience the user has, cannot be negative
+    experienceMax: number; // Amount of experience the user can have, starts with 10
+    ammo: number; // Amount of ammo the user has, cannot be negative
+    ammoMax: number; // Amount of ammo the user can have, starts with 10
+    name: string; // Name of the user
+    code: string; // Code for the user, unique and generated automatically at signup
+    country:string; // Country of the user, ISO with 2 chars
+    lastUpdated: string; // Last time the user was updated
+    attributePoints: number; // Amount of attribute points the user has
+    totalAttack: number; // Total amount of attack the user has, calculated from enhancements
+    totalDefence: number; // Total amount of defence the user has, calculated from enhancements
+    totalUpkeep: number; // Total amount of upkeep the user has, calculated from enhancements
+    totalIncome: number; // Total amount of income the user has, calculated from exorts
+    regenRateEnergy: number; // Rate of energy regeneration, default 5 min
+    regenRateHealth: number; // Rate of health regeneration, default 1 min
+    regenRateAmmo: number;  // Rate of ammo regeneration, default 5 min
+    jobs: { // list of jobs the user has done
+        jobRefId: string; // refId of the job
+        times: number; // amount of times the user has done the job
+        succesRate: number; // success rate of the job, in float percentage (0 => 0%, 1 => 100%)
+        firstTimestamp: number; // timestamp of the first time the user has done the job
+        lastTimestamp: number; // timestamp of the last time the user has done the job
       }[];
-    enhancements:{
-        enhancementRefId: string;
-        amount: number;
+    enhancements:{ // list of enhancements the user has
+        enhancementRefId: string; // refId of the enhancement
+        amount: number; // amount of the enhancement
+        firstTimeStamp: number; // timestamp of the first time the user has bought the enhancement
+        lastTimeStamp: number; // timestamp of the last time the user has bought the enhancement
     }[]
-    timings:{
-        energyFull: number | null;
-        ammoFull: number | null;
-        healthFull: number | null;
+    timings:{ // list of timings the user has in ms. if null, meaning at full.
+        energyFull: number | null; // timestamp when the energy is full, calculated from regenRateEnergy
+        ammoFull: number | null; // timestamp when the ammo is full, calculated from regenRateAmmo
+        healthFull: number | null; // timestamp when the health is full, calculated from regenRateHealth
     }
-    ref: Ref;
+    ref: Ref; // faunea refId of the user
 }
 
 class User implements IUser {
@@ -61,13 +73,25 @@ class User implements IUser {
     country!:string;
     lastUpdated!: string;
     attributePoints!: number;
+    totalAttack!: number;
+    totalDefence!: number;
+    totalUpkeep!: number;
+    totalIncome!: number;
+    regenRateEnergy!: number;
+    regenRateHealth!: number;
+    regenRateAmmo!: number;
     jobs!: {
         jobRefId: string;
         times: number;
+        succesRate: number;
+        firstTimestamp: number;
+        lastTimestamp: number;
       }[];
     enhancements!: {
         enhancementRefId: string; 
         amount: number; 
+        firstTimeStamp: number;
+        lastTimeStamp: number;
     }[];
     timings!:{
         energyFull: number | null;
@@ -80,6 +104,7 @@ class User implements IUser {
         this.name = name;
         this.email = email;
     }
+
 
     //if not exists create a new user, else return the existing user
     get = async () =>{
@@ -105,6 +130,13 @@ class User implements IUser {
                 this.jobs = userData.data.jobs;
                 this.timings = userData.data.timings;
                 this.enhancements = userData.data.enhancements;
+                this.totalAttack = userData.data.totalAttack;
+                this.totalDefence = userData.data.totalDefence;
+                this.totalUpkeep = userData.data.totalUpkeep;
+                this.totalIncome = userData.data.totalIncome;
+                this.regenRateEnergy = userData.data.regenRateEnergy;
+                this.regenRateHealth = userData.data.regenRateHealth;
+                this.regenRateAmmo = userData.data.regenRateAmmo;
             }else{
                 this.level = 1;
                 this.dollars = 2000;
@@ -127,6 +159,13 @@ class User implements IUser {
                     ammoFull: null,
                     healthFull: null
                 }
+                this.totalAttack = 0;
+                this.totalDefence = 0;
+                this.totalUpkeep = 0;
+                this.totalIncome = 0;
+                this.regenRateEnergy = 5;
+                this.regenRateHealth = 1;
+                this.regenRateAmmo = 5;
                 await createNewUser(this).then(user => {
                     this.ref = user.ref;
                 })
@@ -176,11 +215,11 @@ class User implements IUser {
     }
 
     public  getAvailableJobs = async () =>{
-        return await getAvailableJobsForUser(this.getRefId());
+        return await getAvailableJobsForUser(this);
     }
 
     public  static  getAvailableJobsStatic = async (userRefId: string) => {
-        return await getAvailableJobsForUser(userRefId);
+        return await getAvailableJobsForUserByRefId(userRefId);
     }
 
     
