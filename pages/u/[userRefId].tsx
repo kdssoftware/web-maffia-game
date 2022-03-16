@@ -15,10 +15,16 @@ interface  Props  {
 
 const UserPage: NextPage<Props> = (props)  => {
     let {stringyfiedUser} = props;
+    const { data: session } = useSession()
     const user : User = JSON.parse(stringyfiedUser);
     const userRefId = User.getRefIdStatic(user);
+    const isOwner = session && session.user && session.user.refId === userRefId;
+
     return (
         <>
+            <div>
+                <div>{user.name}</div>
+            </div>
         </>
     )
 }

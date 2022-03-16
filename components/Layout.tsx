@@ -13,7 +13,7 @@ const Layout = ({ children} :
         }
         if(status==="authenticated"){
             return (
-                <div className="h-screen bg-slate-800">
+                <div className="h-screen text-white bg-slate-800">
                     <Top />
                     <div className=' top-[172px] bottom-[73px] overflow-y-auto overscroll-y-contain flex-nowrap fixed w-screen'>
                         {

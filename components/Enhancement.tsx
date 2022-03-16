@@ -31,8 +31,9 @@ const EnhancementComponent = ({enhancementData} : { enhancementData : Enhancemen
                     <div>Attack: {enhancementData.data.attack??0}</div>
                     <div>Defence: {enhancementData.data.defence??0}</div>
                     {
-                        enhancementData.data.upkeep && 
+                        enhancementData.data.upkeep ?
                         <div>Upkeep : {enhancementData.data.upkeep}</div>
+                        :""
                     }
                 </div>
                 <EnhancementButton enhancementData={enhancementData} showAmount={false} />
