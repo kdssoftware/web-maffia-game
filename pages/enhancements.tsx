@@ -49,7 +49,7 @@ const Home: NextPage = ({
       <div className='text-lg text-white'>Upkeep:  {formatter.format(0)}</div>
     </div>
     {
-      currentEnhancement && <EnhancementSuccess />
+      currentEnhancement && <EnhancementSuccess currentEnhancement={currentEnhancement}/>
     }
     <div>
       {

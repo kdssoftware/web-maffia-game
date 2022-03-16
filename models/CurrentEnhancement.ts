@@ -10,5 +10,6 @@ export type CurrentEnhancement = {
     minLevel:number;
     upkeep:number;
     success:boolean;
+    amountBought:number;
     ref:Ref;
 }

@@ -2,7 +2,7 @@ import { getEnhancementByName, purchase, getEnhancementByRef } from "@controller
 import {Ref} from "@fauna";
 
 export interface IEnhancement {
-    type:EnhancementType,
+    type:EnhancementType;
     name:string;
     attack:number;
     defence:number;

@@ -12,6 +12,7 @@ export default async function handler(
     const session = await getSession({ req })
     const amount = parseInt( (req.query.amount ?? 1) as string) ?? 1;
     const enhancementRefId = req.query.id as string;
+    
     if (session && session.user.refId && amount && enhancementRefId) {
         const enhancement = await Enhancement.getClassByRefId(enhancementRefId);
         if(enhancement){

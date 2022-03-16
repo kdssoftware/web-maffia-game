@@ -57,6 +57,7 @@ export const purchase = async (userRefId: string, enhancementRefId: string, amou
     minLevel: enhancement.minLevel,
     upkeep: enhancement.upkeep,
     success:false,
+    amountBought:amount,
     ref: enhancement.ref
   }
   const user = await getUserByRef(userRefId);
