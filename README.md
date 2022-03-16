@@ -29,4 +29,4 @@ NEXTAUTH_URL_INTERNAL=http://localhost:3000
 
 ## Current look: 
 ![image](https://user-images.githubusercontent.com/10829524/158248477-e9ab585a-eff5-4cfc-9a10-5dce39e02ff7.png)
-![image](https://user-images.githubusercontent.com/10829524/158248512-86744da9-903f-420a-bfca-8496f9441cfd.png)
+![image](https://user-images.githubusercontent.com/10829524/158549640-f2535c0a-bae1-4550-a901-2adcec68ebf8.png)
