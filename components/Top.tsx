@@ -1,12 +1,10 @@
-import { useSession, signIn, signOut } from "next-auth/react"
-import Link from 'next/link'
-import { User } from '@models/User'
+import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserTie, faCoins, faMoneyBill, faGun, faBolt, faHeart, faCrown } from '@fortawesome/free-solid-svg-icons'
-import { useAppSelector, useAppDispatch, useInterval } from '@lib/redux/hooks'
+import { faCoins, faMoneyBill, faGun, faBolt, faHeart, faCrown } from '@fortawesome/free-solid-svg-icons'
+import { useAppSelector, useAppDispatch } from '@lib/redux/hooks'
 import { fetchTopAsync, selectTop } from '@lib/redux/features/Top/TopSlice'
-import msToMin from '@utils/msToMin'
+import {msToMin} from '@utils/timeFunctions'
 // @next/react-refresh-utils
 const Top = () => {
     const { data: session, status } = useSession()

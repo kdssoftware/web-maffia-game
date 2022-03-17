@@ -1,7 +1,3 @@
-
-import { EnhancementData } from "@models/Enhancement"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoins, faMoneyBill } from '@fortawesome/free-solid-svg-icons'
 import EnhancementButton from "./buttons/EnhancementButton";
 import type {CurrentEnhancement} from "@models/CurrentEnhancement"
 

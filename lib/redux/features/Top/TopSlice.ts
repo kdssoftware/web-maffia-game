@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-import type { AppState, AppThunk } from '@lib/redux/store'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import type { AppState } from '@lib/redux/store'
 import { fetchUser } from '@lib/redux/features/Top/TopApi'
 import {User} from '@models/User'
 

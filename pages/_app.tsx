@@ -4,7 +4,6 @@ import type { AppProps } from 'next/app'
 import { SessionProvider } from "next-auth/react"
 import { Provider } from 'react-redux'
 import store from '@lib/redux/store'
-import { useEffect } from 'react'
 import Layout from '@components/Layout'
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {

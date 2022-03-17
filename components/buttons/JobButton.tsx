@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useAppSelector, useAppDispatch } from '@lib/redux/hooks'
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import { fetchTopAsync } from '@lib/redux/features/Top/TopSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBolt} from "@fortawesome/free-solid-svg-icons"

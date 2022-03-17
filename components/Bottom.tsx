@@ -2,7 +2,7 @@ import { faBoxOpen, faBusinessTime, faHome, faUserGear } from '@fortawesome/free
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link';
 import { useRouter  } from 'next/router';
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
 
 const Bottom = () => {
     

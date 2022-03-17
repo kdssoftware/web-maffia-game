@@ -1,13 +1,13 @@
 import { client, q } from "@fauna";
 import { User, UserData } from "@models/User";
-import { Job, JobData } from "@models/Job";
-import { getJobByRef, getAllJobs } from "./Job";
-import {generateNumberFromRange} from "@utils/generateNumberFromRange";
-import {CurrentJob, Receiving } from "@models/CurrentJob"
-import generateTiming from "@utils/generateTiming";
-import { faUserTie, faCoins, faMoneyBill, faGun,faCrown, faBolt, faHeart, faL } from '@fortawesome/free-solid-svg-icons'
-import calcJobDifficulty from "@utils/calcJobDifficulty";
+import { JobData } from "@models/Job";
+import {CurrentJob } from "@models/CurrentJob"
 import { Enhancement } from "@models/Enhancement";
+import { getJobByRef, getAllJobs } from "@controller/Job";
+import {generateNumberFromRange} from "@utils/numberFunctions";
+import {calcJobDifficulty} from "@utils/jobFunctions";
+import {generateTiming} from "@utils/timeFunctions";
+import { faMoneyBill, faCrown } from '@fortawesome/free-solid-svg-icons'
 
 /**
  * Creates a new User in faunaDB
@@ -224,6 +224,7 @@ export const update = async (user: User) => {
       q.Update(q.Ref(q.Collection("users"), user.getRefId()), {
         data: {
           level: user.level,
+          name:user.name,
           dollars: user.dollars,
           energy: user.energy,
           energyMAX: user.energyMAX,

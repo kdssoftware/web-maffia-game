@@ -1,11 +1,10 @@
 import NextAuth from "next-auth"
 import GithubProvider from "next-auth/providers/github"
-import {User} from '@models/User'
-import generateRandomName from '@utils/generateRandomName'
+import {User} from "@models/User";
+import {generateRandomName} from '@utils/stringFunctions'
 import { Session } from "inspector"
 
 export default NextAuth({
-  // Configure one or more authentication providers
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,

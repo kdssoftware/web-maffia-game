@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-import type { AppState, AppThunk } from '@lib/redux/store'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import type { AppState } from '@lib/redux/store'
 import { fetchDoJob } from '@lib/redux/features/CurrentJob/CurrentJobApi'
 import { CurrentJob } from '@models/CurrentJob'
 

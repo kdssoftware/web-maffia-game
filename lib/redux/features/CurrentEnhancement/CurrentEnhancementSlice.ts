@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-
-import type { AppState, AppThunk } from '@lib/redux/store'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import type { AppState } from '@lib/redux/store'
 import { fetchPurchase } from '@lib/redux/features/CurrentEnhancement/CurrentEnhancementApi'
 import type { CurrentEnhancement as CurrentEnhancement} from '@models/CurrentEnhancement'
 

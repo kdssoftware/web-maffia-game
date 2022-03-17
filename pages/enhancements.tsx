@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '@lib/redux/hooks'
 import {selectCurrentEnhancement, purchase} from '@lib/redux/features/CurrentEnhancement/CurrentEnhancementSlice'
-import { fetchTopAsync, selectTop } from '@lib/redux/features/Top/TopSlice'
+import { selectTop } from '@lib/redux/features/Top/TopSlice'
 import EnhancementSuccess from '@components/EnhancementSuccess';
 
 const Home: NextPage = ({

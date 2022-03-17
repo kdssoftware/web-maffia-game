@@ -7,15 +7,15 @@ export default async function handler(
   res: NextApiResponse
 ) {
     const session = await getSession({ req })
+    const username = req.query.username as string;
     if(!session) {
-        res.status(400).json({ error: 'User id is required' });
+        res.status(400).json({ error: 'User is required' });
         return;
-    }else if(session && session.user.refId && req.query.id) {
+    }else if(session && session.user.refId && username) {
         const userRefId = session.user.refId;
         const user = await User.getByRef(userRefId);
-        const enhancementRefId = req.query.id as string;
-        const result = await user.getAmountOfSpecificEnhancement(enhancementRefId);
-        res.status(200).json(result);
+        let success = await user.changeUsername(username);
+        res.status(200).json(success);
         return;
     }
    res.status(401).json({ error: 'User not logged in' });

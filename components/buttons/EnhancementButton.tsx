@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useAppSelector, useAppDispatch } from '@lib/redux/hooks'
 import { selectCurrentEnhancement, purchase } from '@lib/redux/features/CurrentEnhancement/CurrentEnhancementSlice'
-import { fetchTopAsync, selectTop } from '@lib/redux/features/Top/TopSlice'
+import { fetchTopAsync } from '@lib/redux/features/Top/TopSlice'
 
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signOut} from "next-auth/react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBolt, faCoins } from "@fortawesome/free-solid-svg-icons"
-import { Job, JobData } from '@models/Job'
+import { faCoins } from "@fortawesome/free-solid-svg-icons"
 import { EnhancementData, Enhancement } from "@models/Enhancement"
 
 const EnhancementButton = ({ enhancementData, showAmount = false }: { enhancementData: EnhancementData, showAmount: boolean}) => {

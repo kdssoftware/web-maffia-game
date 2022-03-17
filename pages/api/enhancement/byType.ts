@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Enhancement, EnhancementType } from '@models/Enhancement';
-import { getAllEnhancements, getEnhancementsByType } from '@controller/Enhancement';
-import { Job } from '@models/Job';
+import { EnhancementType } from '@models/Enhancement';
+import { getEnhancementsByType } from '@controller/Enhancement';
 
 export default async function handler(
   req: NextApiRequest,

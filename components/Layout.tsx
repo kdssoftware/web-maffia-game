@@ -1,7 +1,6 @@
-
 import Bottom from '@components/Bottom'
 import Top from '@components/Top'
-import { useSession,signIn, signOut } from "next-auth/react"
+import { useSession,signIn } from "next-auth/react"
 
 const Layout = ({ children} :
     { children: React.ReactNode }

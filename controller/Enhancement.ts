@@ -1,7 +1,6 @@
 import { Enhancement, EnhancementData, EnhancementType } from "@models/Enhancement";
 import { client, q } from "@fauna";
 import {getUserByRef, update as updateUser} from "@controller/User";
-import {User} from "@models/User";
 import { CurrentEnhancement } from "@models/CurrentEnhancement";
 
 export const getEnhancementByRef = async (enhancementRefId: string): Promise<Enhancement> => {

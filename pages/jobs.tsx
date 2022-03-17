@@ -1,17 +1,13 @@
-
 import type { NextPage } from 'next'
 import { useSession } from "next-auth/react"
 import JobComponent from '@components/Job'
 import { JobData } from '@models/Job'
 import { useState, useEffect } from 'react'
 import JobSuccess from '@components/JobSuccess'
-
-import { useAppSelector, useAppDispatch, useInterval } from '@lib/redux/hooks'
+import { useAppSelector, useAppDispatch } from '@lib/redux/hooks'
 import { selectCurrentJob } from '@lib/redux/features/CurrentJob/CurrentJobSlice'
 
-const Jobs: NextPage = ({
-
-}) => {
+const Jobs: NextPage = ({ }) => {
     const { data: session, status } = useSession()
     const dispatch = useAppDispatch()
     const currentJob = useAppSelector(selectCurrentJob)

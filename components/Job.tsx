@@ -1,14 +1,12 @@
 import {  JobData } from "@models/Job"
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCrown, faDollarSign,faUserTie} from "@fortawesome/free-solid-svg-icons"
+import { faCrown, faDollarSign} from "@fortawesome/free-solid-svg-icons"
 import JobButton from "@components/buttons/JobButton"
-import calcJobDifficulty from "@utils/calcJobDifficulty";
-import {User} from "@models/User"
-import { useAppSelector, useAppDispatch, useInterval } from '@lib/redux/hooks'
-import { fetchTopAsync, selectTop } from '@lib/redux/features/Top/TopSlice'
+import {calcJobDifficulty, getInfoFromDifficulty} from "@utils/jobFunctions";
+import { useAppSelector, useAppDispatch } from '@lib/redux/hooks'
+import { selectTop } from '@lib/redux/features/Top/TopSlice'
 import { useEffect, useState } from "react";
-import getInfoFromDifficulty from "@utils/getInfoFromDifficulty"
 
 const JobComponent = ({jobData} : {jobData:JobData})   => {
     const dispatch = useAppDispatch()

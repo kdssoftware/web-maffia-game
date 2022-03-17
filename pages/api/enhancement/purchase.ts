@@ -1,7 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Enhancement, EnhancementType } from '@models/Enhancement';
-import { getAllEnhancements, getEnhancementsByType } from '@controller/Enhancement';
-import { Job } from '@models/Job';
+import { Enhancement } from '@models/Enhancement';
 import { getSession } from "next-auth/react"
 
 // amount and id

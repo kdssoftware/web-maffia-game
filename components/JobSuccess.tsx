@@ -1,6 +1,4 @@
-import { JobData } from "@models/Job"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import type { IconDefinition } from "@fortawesome/fontawesome-svg-core"
 import { faBolt } from '@fortawesome/free-solid-svg-icons'
 import JobButton from "@components/buttons/JobButton"
 import {CurrentJob} from "@models/CurrentJob"

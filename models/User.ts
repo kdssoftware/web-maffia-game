@@ -1,16 +1,17 @@
-import generateCode from "@utils/generateCode";
+import {generateCode, validateUsername} from "@utils/stringFunctions";
 import { createNewUser, getUserByEmail, getUserByRef, update, userDoesJob,getAvailableJobsForUserByRefId,  getAvailableJobsForUser} from "@controller/User";
 import {Ref} from "@fauna";
-
-import {CurrentJob} from "@models/CurrentJob"
 
 export type UserData =  {
     ref: Ref;
     data: IUser;
 }
 
+export type UserRole = "admin" | "user";
+
 export interface IUser {
-    email: string; //Email address
+    email: string; //Email address\
+    role: UserRole; // user or admin
     level : number; //Level of the user, starts with 1. does not have a limit
     dollars: number; // Amount of money the user has
     energy: number; // Amount of energy the user has, cannot be negative
@@ -57,6 +58,7 @@ export interface IUser {
 
 class User implements IUser {
     email: string;
+    role!:UserRole;
     level!: number;
     dollars!: number;
     energy!: number;
@@ -111,6 +113,7 @@ class User implements IUser {
         await getUserByEmail(this.email).then(async userData => {
             if(userData){
                 this.ref = userData.ref;
+                this.role = userData.data.role;
                 this.level = userData.data.level;
                 this.dollars = userData.data.dollars;
                 this.energy = userData.data.energy;
@@ -166,6 +169,7 @@ class User implements IUser {
                 this.regenRateEnergy = 5;
                 this.regenRateHealth = 1;
                 this.regenRateAmmo = 5;
+                this.role = "user";
                 await createNewUser(this).then(user => {
                     this.ref = user.ref;
                 })
@@ -221,8 +225,25 @@ class User implements IUser {
     public  static  getAvailableJobsStatic = async (userRefId: string) => {
         return await getAvailableJobsForUserByRefId(userRefId);
     }
-
+    public changeUsername = async (username : string) : Promise<boolean> => {
+        if(!this){
+            throw "No object found, use User as object"
+        }
+        if(!validateUsername(username)){
+            return false;
+        }
+        if(this.name === username){
+            return true;
+        }
+        this.name = username;
+        try{
+            await update(this);
+            return true;
+        }catch(e){
+            return false;
+        }
+    }
     
 }
 
-export { User};
+export { User };

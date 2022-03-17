@@ -1,4 +1,4 @@
-import type { Enhancement, EnhancementType } from "./Enhancement"
+import type { EnhancementType } from "@models/Enhancement"
 import {Ref} from "@fauna";
 
 export type CurrentEnhancement = {
