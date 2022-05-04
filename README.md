@@ -2,7 +2,7 @@
 
 _Hobby project_
 
-An upcoming web game.
+~~An upcoming web game.~~ Discontinued, not finishing.
 
 Using the following technologies:
 - Next.js 12 (frontend + backend framework)
